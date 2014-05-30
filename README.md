@@ -28,6 +28,15 @@ Once you have created the folders run
 To create your corpus. This may take a while depending on the size of your source data. Once
 it is finished you should have a corpus file of about 17MB in size.
 
+To test the filter performance we run emails taken from the original dataset and feed them 
+through the filter. This can be done using rake; for 1000 emails use
+
+`rake benchmark:1000`
+
+for 10,000 emails user
+
+`rake benchmark:10000`
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/dont_bayes_me_bro/fork )
