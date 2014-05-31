@@ -22,7 +22,7 @@ module DontBayesMeBro
           puts "reading #{file}"
 
           begin
-            self.classifier.train :spam, Mail.read(file).body.raw_source
+            self.classifier.train :spam, Mail.read(file).body.to_s
           rescue
           end
 
@@ -34,7 +34,7 @@ module DontBayesMeBro
 
           puts "reading #{file}"
           begin
-            self.classifier.train :ham, Mail.read(file).body.raw_source
+            self.classifier.train :ham, Mail.read(file).body.to_s
           rescue
           end
 
