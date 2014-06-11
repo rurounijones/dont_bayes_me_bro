@@ -8,14 +8,11 @@ end
 
 namespace "benchmark" do
 
-  desc "1000 emails"
-  task :"1000" do
-    DontBayesMeBro::Benchmarker.new(1000).run
-  end
-
-  desc "10000 emails"
-  task :"10000" do
-    DontBayesMeBro::Benchmarker.new(10000).run
+  [1000, 10_000, 30_000].each do |count|
+    desc "#{count} emails"
+    task :"#{count}" do
+      DontBayesMeBro::Benchmarker.new(count).run
+    end
   end
 
 end
