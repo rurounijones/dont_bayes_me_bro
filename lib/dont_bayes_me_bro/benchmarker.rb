@@ -92,9 +92,11 @@ module DontBayesMeBro
     end
 
     def with_profiling
+      results = nil
       StackProf.run(mode: :cpu, out: "/tmp/dbmb-#{Time.now.strftime('%Y%m%d%H%M%S')}.dump") do
-        yield
+        results = yield
       end
+      results
     end
 
     def benchmark
@@ -112,7 +114,8 @@ module DontBayesMeBro
       @classifier.initialize_cache
       GC.start
       puts "Starting benchmark"
-      ENV['PROFILE'] ? self.with_profiling { self.benchmark } : self.benchmark
+      results = ENV['PROFILE'] ? self.with_profiling { self.benchmark } : self.benchmark
+      puts "Jobs per second: #{(@test_count.to_f / results[0].to_a[5]).to_i}"
     end
 
   end
