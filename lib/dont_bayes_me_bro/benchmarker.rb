@@ -3,6 +3,21 @@ require 'ankusa/file_system_storage'
 require 'benchmark'
 require 'stackprof'
 
+# Onlty a benchmarking program would care about pre-caching the doc counts
+# and vocab sizes instead of lazy loading them so rather than modify the
+# ankusa gem and added this niche method we will monkey-patch it in here
+module Ankusa
+  module Classifier
+
+    def initialize_cache
+      puts "Initializing Classifier Cache"
+      self.doc_count_totals
+      self.vocab_sizes
+    end
+
+  end
+end
+
 module DontBayesMeBro
 
   class Benchmarker
@@ -94,7 +109,7 @@ module DontBayesMeBro
 
     def run_benchmark
       # Pre-calculate this before the performance tests
-      @storage.get_vocabulary_sizes
+      @classifier.initialize_cache
       GC.start
       puts "Starting benchmark"
       ENV['PROFILE'] ? self.with_profiling { self.benchmark } : self.benchmark
